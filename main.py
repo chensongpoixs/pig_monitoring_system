@@ -43,7 +43,7 @@ class PigMonitoringSystem:
 
         # 目标检测器
         self.detector = ObjectDetector()
-        logger.info("Object detector initialized (YOLOv8)")
+        logger.info("Object detector initialized (YOLO11)")
 
         # 多目标跟踪器
         self.tracker = MultiObjectTracker()

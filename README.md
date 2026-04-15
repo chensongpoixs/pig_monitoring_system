@@ -7,7 +7,7 @@
 ## 功能特性
 
 - **实时监控**：24小时不间断监控猪舍情况
-- **目标检测**：使用YOLOv8检测视频中的母猪和小猪
+- **目标检测**：使用YOLO11检测视频中的母猪和小猪
 - **母猪/小猪分类**：基于体型大小启发式分类母猪和小猪
 - **多目标跟踪**：基于IOU的多目标跟踪算法，持续追踪每个个体
 - **分娩检测**：使用Farneback光流法检测母猪运动，结合姿态变化分析
@@ -21,7 +21,7 @@
 | 组件 | 技术 |
 |------|------|
 | **编程语言** | Python 3.7+ |
-| **目标检测** | YOLOv8 (ultralytics) |
+| **目标检测** | YOLO11 (ultralytics) |
 | **运动检测** | Farneback光流法 (OpenCV) |
 | **目标跟踪** | 自定义IOU匹配跟踪器 |
 | **深度学习框架** | PyTorch |
@@ -32,10 +32,26 @@
 - Python 3.7+
 - OpenCV 4.8.0+
 - PyTorch 2.0+
-- ultralytics (YOLOv8)
+- ultralytics (YOLO11)
 - pyttsx3 2.90+
 
 ## 安装步骤
+
+
+
+### 环境准备 (Environment Setup - Recommended via Conda)
+
+为了确保依赖库版本的一致性，强烈建议使用 `conda` 创建独立的虚拟环境。
+
+**步骤 A: 创建并激活 Conda 环境**
+```bash
+# 创建一个名为 pig_motion 的环境，指定 Python 3.9
+conda create -n pig_monitoring_system python=3.10 -y
+
+# 激活环境
+conda activate pig_monitoring_system
+```
+
 
 1. **克隆项目**
    ```bash
@@ -51,7 +67,7 @@
 3. **配置系统**
    编辑 `config/config.py` 文件，根据实际情况修改配置参数：
    - `VIDEO_SOURCE`：设置为摄像头ID或视频文件路径
-   - `YOLO_MODEL`：YOLOv8模型路径 (默认: yolov8n.pt)
+   - `YOLO_MODEL`：YOLO11模型路径 (默认: yolo11n.pt)
    - `PIG_AREA_THRESHOLD`：母猪/小猪分类面积阈值
    - `FARROWING_MOTION_THRESHOLD`：分娩检测运动阈值
    - `CRUSH_DURATION_THRESHOLD`：压猪检测持续时间阈值
@@ -82,7 +98,7 @@ pig_monitoring_system/
 ├── src/
 │   ├── detection/
 │   │   ├── __init__.py
-│   │   ├── object_detector.py # YOLOv8目标检测
+│   │   ├── object_detector.py # YOLO11目标检测
 │   │   └── tracker.py         # 多目标跟踪
 │   ├── analysis/
 │   │   ├── __init__.py
@@ -102,8 +118,8 @@ pig_monitoring_system/
 
 ## 技术原理
 
-### 1. 目标检测 (YOLOv8)
-使用YOLOv8模型检测视频中的猪只，COCO数据集中猪的类别ID为16。检测后基于边界框面积进行启发式分类：
+### 1. 目标检测 (YOLO11)
+使用YOLO11模型检测视频中的猪只，COCO数据集中猪的类别ID为16。检测后基于边界框面积进行启发式分类：
 - 面积 > `PIG_AREA_THRESHOLD`：母猪
 - 面积 <= `PIG_AREA_THRESHOLD`：小猪
 
@@ -129,7 +145,7 @@ pig_monitoring_system/
 ## 核心算法流程
 
 ```
-视频帧 → YOLOv8检测 → 母猪/小猪分类 → 多目标跟踪 → 行为分析 → 报警触发
+视频帧 → YOLO11检测 → 母猪/小猪分类 → 多目标跟踪 → 行为分析 → 报警触发
                                     ↓
                               光流法运动检测
                                     ↓
@@ -143,7 +159,7 @@ pig_monitoring_system/
 ### 目标检测参数
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
-| `YOLO_MODEL` | yolov8n.pt | YOLOv8模型路径 |
+| `YOLO_MODEL` | yolo11n.pt | YOLO11模型路径 |
 | `CONFIDENCE_THRESHOLD` | 0.5 | 检测置信度阈值 |
 | `NMS_THRESHOLD` | 0.4 | NMS阈值 |
 | `PIG_AREA_THRESHOLD` | 5000 | 母猪/小猪分类面积阈值 |
@@ -172,7 +188,7 @@ pig_monitoring_system/
 
 1. **摄像头位置**：建议将摄像头安装在猪舍上方，确保能清晰拍摄到整个猪舍
 2. **光线条件**：确保猪舍内光线充足，避免过暗或过亮的环境
-3. **模型精度**：YOLOv8模型在默认情况下可能无法区分母猪和小猪，需要根据实际情况调整面积阈值
+3. **模型精度**：YOLO11模型在默认情况下可能无法区分母猪和小猪，需要根据实际情况调整面积阈值
 4. **误报处理**：系统可能会产生误报，需要根据实际情况调整阈值参数
 5. **GPU加速**：如有NVIDIA GPU，设置`YOLO_DEVICE = 'cuda:0'`可大幅提升检测速度
 

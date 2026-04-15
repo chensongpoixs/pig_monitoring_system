@@ -31,6 +31,7 @@ import cv2
 class Config:
     # 视频配置
     VIDEO_SOURCE = 0
+    VIDEO_SOURCE = 'fftest_pig_motion.mp4'  # 替换为实际视频路径;
     VIDEO_WIDTH = 1280
     VIDEO_HEIGHT = 720
     FPS = 30
@@ -40,8 +41,8 @@ class Config:
     NMS_THRESHOLD = 0.4
 
     # YOLOv8模型配置
-    YOLO_MODEL = 'yolov8n.pt'
-    YOLO_DEVICE = 'cuda:0'
+    YOLO_MODEL = 'yolo11n.pt'  # 升级为 YOLO11，性能优于 YOLOv8/v9/v10
+    YOLO_DEVICE = 'cuda:0'  # 使用 GPU 加速，CPU 环境下改为'cpu'
 
     # 猪只分类配置（基于体型大小）
     PIG_AREA_THRESHOLD = 5000
