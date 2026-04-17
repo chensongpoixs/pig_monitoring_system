@@ -43,6 +43,11 @@ class Config:
     # YOLOv8模型配置
     YOLO_MODEL = 'yolo11n.pt'  # 升级为 YOLO11，性能优于 YOLOv8/v9/v10
     YOLO_DEVICE = 'cuda:0'  # 使用 GPU 加速，CPU 环境下改为'cpu'
+    
+    # RT-DETR Transformer 模型配置（推荐用于高精度场景）
+    RTDETR_ENABLED = False  # 是否启用 RT-DETR
+    RTDETR_MODEL = 'rtdetr-l.pt'  # 模型选择：rtdetr-s/l/x (s=快，l=平衡，x=精度)
+    RTDETR_IMG_SIZE = 640  # 输入图像大小
 
     # 猪只分类配置（基于体型大小）
     PIG_AREA_THRESHOLD = 5000

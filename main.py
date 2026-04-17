@@ -30,6 +30,7 @@ import cv2
 import time
 import numpy as np
 from src.detection.object_detector import ObjectDetector
+from src.detection.rt_detr_detector import RTDETRDetector
 from src.detection.tracker import MultiObjectTracker
 from src.analysis.behavior_analyzer import BehaviorAnalyzer
 from src.alarm.alarm_system import AlarmSystem
@@ -41,9 +42,13 @@ class PigMonitoringSystem:
         # 初始化各模块
         logger.info("Initializing Pig Monitoring System...")
 
-        # 目标检测器
-        self.detector = ObjectDetector()
-        logger.info("Object detector initialized (YOLO11)")
+        # 目标检测器（支持 YOLO11 和 RT-DETR Transformer）
+        if config.RTDETR_ENABLED:
+            self.detector = RTDETRDetector()
+            logger.info("Object detector initialized (RT-DETR Transformer)")
+        else:
+            self.detector = ObjectDetector()
+            logger.info("Object detector initialized (YOLO11)")
 
         # 多目标跟踪器
         self.tracker = MultiObjectTracker()

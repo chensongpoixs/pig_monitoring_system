@@ -21,7 +21,7 @@
 | 组件 | 技术 |
 |------|------|
 | **编程语言** | Python 3.7+ |
-| **目标检测** | YOLO11 (ultralytics) |
+| **目标检测** | YOLO11 \u25C9 RT-DETR (ultralytics) |
 | **运动检测** | Farneback光流法 (OpenCV) |
 | **目标跟踪** | 自定义IOU匹配跟踪器 |
 | **深度学习框架** | PyTorch |
